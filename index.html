@@ -4,12 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSDB Preview Bookmarklet</title>
+  <style>
+    body {
+      background: #f8f8f8;
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width:40em;
+      margin: 1em auto;
+    }
+    h1 {
+      font-size: 1.2em;
+    }
+    h2 {
+      font-size: 1.1em;
+    }
+    img {
+      max-width: 100%;
+    }
+    .bookmarklet {
+      font-size: 1.2em;
+    }
+
+  </style>
 </head>
 <body>
+<h1>CSDB Preview Bookmarklet</h1>
+<p>This bookmarklet adds a preview functionality to the Commodore Scene Database <a href="https://csdb.dk">CSDB</a>. Often your don't remember the name but what a release looked like and I found this makes it easier.</p>
 
-  
+<h2>Get the bookmarklet</h2>
+<p>Simply drag the following link to your browser bookmarks bar:</p>
 
-<p><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://codepo8.github.io/csdb-preview-bookmarklet/csdb-preview.js';})();">CSDB Preview</a></p>
+<p><a class="bookmarklet" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://codepo8.github.io/csdb-preview-bookmarklet/csdb-preview.js';})();">CSDB Preview</a></p>
+
+
+<h2>Demo</h2>
+<p>Here you can see the bookmarklet in action. On any page with releases on <a href="https://csdb.dk">CSDB</a> you can click the bookmarklet and a preview window appears. You can drag the window wherever you want. Moving your mouse over any of the links now displays the image connected to the releases.</p>
+<img src="csdb-preview.gif" alt="CSDB Preview screencast">
+
+<h2>Credits</h2>
+<p>All code by Chris Heilmann. You can take a look at the source and <a href="https://github.com/codepo8/csdb-preview-bookmarklet">contribute on Github</a>.</p>
 
 </body>
 </html>
