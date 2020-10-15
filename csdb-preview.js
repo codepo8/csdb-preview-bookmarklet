@@ -199,14 +199,14 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
       folderid = ('' + id).slice(0,3) + '000';
     }
     let url = `https://csdb.dk/gfx/releases/${folderid}/${id}.png`;
+
     fetch(url, { method: 'HEAD' })
     .then(res => {
         if (res.ok) {
-          let url = i.src.replace('.png','.gif');
           out = `<img src="${url}">`;
           altDisplay.setAttribute('alttext', out);
         } else {
-          let url = i.src.replace('.png','.gif');
+          url = url.replace('.png','.gif');
           out = `<img src="${url}">`;
           altDisplay.setAttribute('alttext', out);
         }
