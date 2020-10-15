@@ -186,21 +186,6 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
     );
 };
 
-  const checkimg = (src => {
-    let i = new Image();
-    i.src = src;
-    i.onload = function() {
-      let url = i.src;
-      out = `<img src="${url}">`;
-      altDisplay.setAttribute('alttext', out);
-    }
-    i.onerror = function() {
-      let url = i.src.replace('.png','.gif');
-      out = `<img src="${url}">`;
-      altDisplay.setAttribute('alttext', out);
-    }
-  });
-
   const overimg = e => {
     let id = +e.target.href.replace(/.*\?id=/,'');
     let folderid = '1';
@@ -214,7 +199,18 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
       folderid = ('' + id).slice(0,3) + '000';
     }
     let url = `https://csdb.dk/gfx/releases/${folderid}/${id}.png`;
-    checkimg(url);
+    fetch(url, { method: 'HEAD' })
+    .then(res => {
+        if (res.ok) {
+          let url = i.src.replace('.png','.gif');
+          out = `<img src="${url}">`;
+          altDisplay.setAttribute('alttext', out);
+        } else {
+          let url = i.src.replace('.png','.gif');
+          out = `<img src="${url}">`;
+          altDisplay.setAttribute('alttext', out);
+        }
+    }).catch(err => console.log('Error:', err));
 
     // https://csdb.dk/release/?id=182085
     // https://csdb.dk/gfx/releases/182000/182085.png

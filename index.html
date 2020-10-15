@@ -55,21 +55,5 @@
 <h2>Credits</h2>
 <p>All code by Chris Heilmann. You can take a look at the source and <a href="https://github.com/codepo8/csdb-preview-bookmarklet">contribute on Github</a>.</p>
 
-
-<script>
-  function setCookie(name, value, daysToLive) {
-    // Encode value in order to escape semicolons, commas, and whitespace
-    var cookie = name + "=" + encodeURIComponent(value);
-    
-    if(typeof daysToLive === "number") {
-        /* Sets the max-age attribute so that the cookie expires
-        after the specified number of days */
-        cookie += "; max-age=" + (daysToLive*24*60*60);
-        
-        document.cookie = cookie;
-    }
-}
-setCookie('test','moo',200);
-</script>
 </body>
 </html>
