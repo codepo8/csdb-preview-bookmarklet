@@ -1,3 +1,10 @@
+/* 
+javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://localhost:8000/csdb-preview.js';})();
+
+javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://codepo8.github.io/csdb-preview-bookmarklet/csdb-preview.js';})();
+
+*/
+
 (function(){
   if (document.querySelector('alt-swab')) {
     return;
@@ -7,13 +14,16 @@
       super();
     }
     static get observedAttributes() {
-      return ['error','alttext','hidden'];
+      return ['error','alttext','reviews','hidden'];
     }
     get error() {
       return this.hasAttribute('error');
     }
     get alttext() {
       return this.hasAttribute('alttext');
+    }
+    get reviews() {
+      return this.hasAttribute('reviews');
     }
     get hidden() {
       return this.hasAttribute('hidden');
@@ -32,9 +42,14 @@
         }
 
         if (this.alttext) {
-          this.shadowRoot.querySelector('p').innerHTML = this.getAttribute('alttext');
+          this.shadowRoot.querySelector('.image').innerHTML = this.getAttribute('alttext');
         } else {
-          this.shadowRoot.querySelector('p').innerHTML = ''
+          this.shadowRoot.querySelector('.image').innerHTML = ''
+        }
+        if (this.reviews) {
+          this.shadowRoot.querySelector('.reviews').innerHTML = this.getAttribute('reviews');
+        } else {
+          this.shadowRoot.querySelector('.reviews').innerHTML = ''
         }
       }
     }
@@ -46,7 +61,7 @@
           position: fixed;
           background: #3d6ab7;
           font-family: Sans-serif;
-          max-width: 500px;
+          max-width: 400px;
           min-height: 250px;
           min-width: 350px;
           overflow: scroll ;
@@ -92,15 +107,26 @@
           margin: 0 5px 0 0;
           padding: 0;
         }
+        div img {
+          display: block;
+          margin: 0 auto;
+        }
         div button:hover {
           color: yellow;
           background: black;
+        }
+        .reviews a {
+          color: black;
+        }
+        .reviews {
+          padding: 5px;
         }
         </style>
         <div>
           <h1>Drag here</h1>
           <button title="close">ⅹ</button>
-          <p></p>
+          <p class="image"></p>
+          <p class="reviews"></p>
         </div>
       `;
 
@@ -150,7 +176,15 @@
   altDisplay.removeAttribute('hidden');
 
   const outimg = e => {
-  };
+    altDisplay.setAttribute(
+      'alttext',
+      ''
+    );
+    altDisplay.setAttribute(
+      'reviews',
+      ''
+    );
+};
 
   const checkimg = (src => {
     let i = new Image();
@@ -185,11 +219,42 @@
     // https://csdb.dk/release/?id=182085
     // https://csdb.dk/gfx/releases/182000/182085.png
 
+    fetch(e.target.href)
+      .then(response => response.text())
+      .then(data => {
+        altDisplay.setAttribute(
+        'reviews',
+        ''
+    );
+    if (data.indexOf('<a name="review">') === -1) {
+        altDisplay.setAttribute('reviews','No comments');
+    } else {
+      data = data.replace(/\n/g,'');
+      let html = data.replace(/.*<b>User Comment/,'');
+      html = html.replace(/Add a <a href="\/release\/addcomment.*/,'');
+      let parser = new DOMParser();
+      let htmlDoc = parser.parseFromString(html, 'text/html');
+      let authors = [...htmlDoc.querySelectorAll('a[href*=scener]')];
+      let comments = [...htmlDoc.querySelectorAll('table')];
+      if (authors.length > 3) {authors = authors.slice(0,3)};
+      let out = '';
+      authors.forEach((a,i) => {
+          out += `
+          <b>${a.innerHTML}</b><br>
+          ${comments[i].querySelector('font').innerHTML}<br><br>
+        `
+      })
+      altDisplay.setAttribute(
+        'reviews',
+        out
+      );
+    }
+  });
   };
 
-  let allimgs = document.querySelectorAll('a');
-  allimgs = [...allimgs].filter(a => {return a.href.indexOf('release/?')!==-1})
-  allimgs.forEach(i => {
+  let alllinks = document.querySelectorAll('a');
+  alllinks = [...alllinks].filter(a => {return a.href.indexOf('release/?')!==-1})
+  alllinks.forEach(i => {
     i.addEventListener('mouseover', overimg);
     i.addEventListener('mouseout', outimg);
   });

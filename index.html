@@ -29,20 +29,47 @@
 </head>
 <body>
 <h1>CSDB Preview Bookmarklet</h1>
-<p>This bookmarklet adds a preview functionality to the Commodore Scene Database <a href="https://csdb.dk">CSDB</a>. Often your don't remember the name but what a release looked like and I found this makes it easier.</p>
+<p>
+  This bookmarklet adds a preview functionality to the Commodore Scene 
+  Database <a href="https://csdb.dk">CSDB</a>. Often your don't remember the 
+  name but what a release looked like and I found this makes it easier.</p>
 
 <h2>Get the bookmarklet</h2>
 <p>Simply drag the following link to your browser bookmarks bar:</p>
 
-<p><a class="bookmarklet" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://codepo8.github.io/csdb-preview-bookmarklet/csdb-preview.js';})();">CSDB Preview</a></p>
+<p>
+  <a class="bookmarklet" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://codepo8.github.io/csdb-preview-bookmarklet/csdb-preview.js';})();">CSDB Preview</a>
+</p>
 
 
 <h2>Demo</h2>
-<p>Here you can see the bookmarklet in action. On any page with releases on <a href="https://csdb.dk">CSDB</a> you can click the bookmarklet and a preview window appears. You can drag the window wherever you want. Moving your mouse over any of the links now displays the image connected to the releases.</p>
-<img src="csdb-preview.gif" alt="CSDB Preview screencast">
+<p>
+  Here you can see the bookmarklet in action. On any page with releases 
+  on <a href="https://csdb.dk">CSDB</a> you can click the bookmarklet 
+  and a preview window appears. You can drag the window wherever you want. 
+  Moving your mouse over any of the links now displays the image connected 
+  to the releases.
+  <img src="csdb-preview.gif" alt="CSDB Preview screencast">
+</p>
 
 <h2>Credits</h2>
 <p>All code by Chris Heilmann. You can take a look at the source and <a href="https://github.com/codepo8/csdb-preview-bookmarklet">contribute on Github</a>.</p>
 
+
+<script>
+  function setCookie(name, value, daysToLive) {
+    // Encode value in order to escape semicolons, commas, and whitespace
+    var cookie = name + "=" + encodeURIComponent(value);
+    
+    if(typeof daysToLive === "number") {
+        /* Sets the max-age attribute so that the cookie expires
+        after the specified number of days */
+        cookie += "; max-age=" + (daysToLive*24*60*60);
+        
+        document.cookie = cookie;
+    }
+}
+setCookie('test','moo',200);
+</script>
 </body>
 </html>
