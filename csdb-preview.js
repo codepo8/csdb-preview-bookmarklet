@@ -234,7 +234,7 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
     }
   });
   };
-
+if (self.location.href.indexOf('group')!==-1) {
 let releasetable = [...document.querySelectorAll('b')].filter(b => {return b.innerHTML.indexOf('Releases')!==-1})[0].nextSibling.nextSibling.nextSibling
 
 const getid = s => {
@@ -341,5 +341,15 @@ st.innerHTML = `
     }
   }
 `;
-
+} else {
+  let alllinks = document.querySelectorAll('a');
+  alllinks = [...alllinks].filter(
+    a => { return a.href.indexOf('release/?')!==-1 }
+  );
+  alllinks.forEach(a => {
+    a.addEventListener('mouseover', overlink);
+    a.addEventListener('mouseout', outlink);
+  });
+}
+ 
 })();
