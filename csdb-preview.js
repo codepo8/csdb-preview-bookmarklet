@@ -102,7 +102,7 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
         div img {
           display: block;
           margin: 0 auto;
-          max-width: 380px;
+          max-width: 100%;
         }
         div button:hover {
           color: yellow;
@@ -194,7 +194,7 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
     if (id >= 10000 && id < 100000) { chunk = 2 }
     if (id >= 100000) { chunk = 3 }
     folderid = ('' + id).slice(0,chunk) + '000';
-    
+    if (id < 1000) {folderid = '1'};
     let url = `https://csdb.dk/gfx/releases/${folderid}/${id}.png`;
     fetch(url, { method: 'HEAD' })
     .then(res => {
