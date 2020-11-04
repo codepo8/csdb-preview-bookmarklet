@@ -314,13 +314,15 @@ const rendertable = _ => {
       <th>Compo</th>
     </tr>`;
   data.release.forEach((name,i) => {
-    if (showitems.includes(data.type[i]) && +data.year[i]<=maxyear||data.year[i]==="???"){
-      out += `<tr>
-      <td><a href="/release/?id=${data.page[i]}">${name}</a></td>
-      <td>${data.year[i]}</td>
-      <td>${data.type[i]}</td>
-      <td>${data.accolade[i]}</td>
-      </tr>`
+    if (+data.year[i]<=maxyear||data.year[i]==="???"){
+      if (showitems.includes(data.type[i])){
+          out += `<tr>
+          <td><a href="/release/?id=${data.page[i]}">${name}</a></td>
+          <td>${data.year[i]}</td>
+          <td>${data.type[i]}</td>
+          <td>${data.accolade[i]}</td>
+          </tr>`
+      }
     }
   })
   container.innerHTML = out;
