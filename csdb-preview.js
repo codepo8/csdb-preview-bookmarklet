@@ -58,9 +58,8 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
           right: 250px;
           background: #3d6ab7;
           font-family: Sans-serif;
-          max-width: 400px;
+          width: 375px;
           min-height: 250px;
-          min-width: 350px;
           overflow: scroll ;
           top: 90px;
           font-size: 16px;
