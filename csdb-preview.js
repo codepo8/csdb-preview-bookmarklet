@@ -102,6 +102,7 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
         div img {
           display: block;
           margin: 0 auto;
+          max-width: 380px;
         }
         div button:hover {
           color: yellow;
@@ -266,6 +267,8 @@ table.forEach(tr => {
   data.type.push(clean(tds[3].innerHTML));
   data.accolade.push(clean(tds[4].innerHTML));
 });
+let years = [...new Set(data.year)].sort();
+if(years[years.length-1]==='???') {years.pop()};
 let f = document.createElement('form');
 let out = 'Show: <button id="us">unselect all</button><br>';
 let i = 0;
@@ -278,6 +281,10 @@ let t = releasetable;
 t.style.display = 'none';
 t.parentNode.insertBefore(f,t);
 f.innerHTML = out;
+f.innerHTML += `<br><label>Year: ${years[0]}
+ <input type="range" id="years" min=${+years[0]} 
+ value=${+years[years.length-1]} 
+ max=${+years[years.length-1]}>${years[years.length-1]}</label>`;
 let container = document.createElement('table');
 container.id = 'sortrelease';
 t.parentNode.insertBefore(container,t);
@@ -285,6 +292,7 @@ f.addEventListener('change', e => {
   rendertable();
 });
 const rendertable = _ => {
+  let maxyear = +document.querySelector('#years').value;
   let showitems = [];
   let cbs = document.querySelectorAll('form input[type=checkbox]');
   cbs.forEach(c => {
@@ -298,7 +306,7 @@ const rendertable = _ => {
       <th>Compo</th>
     </tr>`;
   data.release.forEach((name,i) => {
-    if (showitems.indexOf(data.type[i])!==-1){
+    if (showitems.includes(data.type[i]) && +data.year[i]<=maxyear||data.year[i]==="???"){
       out += `<tr>
       <td><a href="/release/?id=${data.page[i]}">${name}</a></td>
       <td>${data.year[i]}</td>
@@ -314,7 +322,7 @@ const rendertable = _ => {
   );
   alllinks.forEach(a => {
     a.addEventListener('mouseover', overlink);
-    a.addEventListener('mouseout', outlink);
+    // a.addEventListener('mouseout', outlink);
   });
 }
 rendertable();
@@ -327,7 +335,7 @@ let st = document.createElement('style');
 document.head.appendChild(st);
 st.innerHTML = `
    #sortrelease td, #sortrelease th {
-    padding: 5px 3px;
+    padding: 5px 3px 0 3px;
   }
   #sortrelease {
    width: 100%;
@@ -337,7 +345,7 @@ st.innerHTML = `
   }
   @media (min-width:600px) {
     html body td {
-      font-size: 1.2em;
+      font-size: 1.1em;
     }
   }
 `;
@@ -348,7 +356,7 @@ st.innerHTML = `
   );
   alllinks.forEach(a => {
     a.addEventListener('mouseover', overlink);
-    a.addEventListener('mouseout', outlink);
+    // a.addEventListener('mouseout', outlink);
   });
 }
  
