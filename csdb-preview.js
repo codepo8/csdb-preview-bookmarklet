@@ -4,11 +4,11 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
 javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://codepo8.github.io/csdb-preview-bookmarklet/csdb-preview.js';})();
 
 */
-
 (function(){
   if (document.querySelector('csdb-preview')) {
     return;
   }
+  
   class CSDBOverlay extends HTMLElement {
     constructor () {
       super();
@@ -55,14 +55,14 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
         <style>
         div {
           position: fixed;
-          right: 20px;
+          right: 250px;
           background: #3d6ab7;
           font-family: Sans-serif;
           max-width: 400px;
           min-height: 250px;
           min-width: 350px;
           overflow: scroll ;
-          top: 10px;
+          top: 90px;
           font-size: 16px;
           color:black;
           box-shadow:3px 3px 20px #333;
@@ -154,14 +154,22 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
           (shadowRoot.querySelector('div').offsetLeft - swatchx) + "px";
       }
       const enddrag = _ => {
+        let x = shadowRoot.querySelector('div').style.left.replace('px','');
+        let y = shadowRoot.querySelector('div').style.top.replace('px','');
+        window.localStorage.setItem('CSDBpreview',x+'|'+y);
         document.removeEventListener('mouseup', enddrag);
         document.removeEventListener('mousemove', startdrag);
       }
       shadowRoot.querySelector('h1').addEventListener('mousedown', initiatedrag);
+      if(localStorage.getItem('CSDBpreview')){
+        let pos = localStorage.getItem('CSDBpreview').split('|');
+        shadowRoot.querySelector('div').style.left = Math.max(+pos[0],0)+'px';
+        shadowRoot.querySelector('div').style.top = Math.max(+pos[1],0)+'px';
+      }
     }
   }
-  window.customElements.define('csdb-preview', CSDBOverlay);
 
+  window.customElements.define('csdb-preview', CSDBOverlay);
   let csdbPreview = document.createElement('csdb-preview');
   document.body.appendChild(csdbPreview);
 
@@ -178,8 +186,8 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
   };
 
   const overlink = e => {
-
-    let id = +e.target.href.replace(/.*\?id=/,'');
+    let href = e.target.href.replace(/&.*/,'');
+    let id = +href.replace(/.*\?id=/,'');
     let folderid = '1';
     let chunk = 0;
     if (id >= 1000 && id < 10000) { chunk = 1 }
@@ -359,5 +367,4 @@ st.innerHTML = `
     // a.addEventListener('mouseout', outlink);
   });
 }
- 
 })();
