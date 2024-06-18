@@ -242,7 +242,8 @@ javascript:(function(){document.body.appendChild(document.createElement('script'
     }
   });
   };
-if (self.location.href.indexOf('dk/group')!==-1 || self.location.href.indexOf('dk/scener')!==-1) {
+// if (self.location.href.indexOf('dk/group')!==-1 || self.location.href.indexOf('dk/scener')!==-1) {
+if (self.location.href.indexOf('dk/group')!==-1) {
 let releasetable = [...document.querySelectorAll('b')].filter(b => {return b.innerHTML.indexOf('Releases')!==-1})[0].nextSibling.nextSibling.nextSibling
 
 const getid = s => {
